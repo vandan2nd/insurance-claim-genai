@@ -1,0 +1,34 @@
+services:
+  # Main Backend Service
+  - type: web
+    name: claimsense-backend
+    env: python
+    plan: free
+    rootDir: genai-backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+        description: "API key for main backend (app.py)"
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: "3.11.7"
+
+  # Chatbot Service
+  - type: web
+    name: claimsense-chatbot
+    env: python
+    plan: free
+    rootDir: genai-backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python appi.py
+    envVars:
+      - key: GEMINI_API_KEY_CHATBOT
+        sync: false
+        description: "API key for chatbot (appi.py)"
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: "3.11.7" 
